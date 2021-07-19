@@ -16,6 +16,7 @@ package fr.neatmonster.nocheatplus.checks.blockinteract;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -141,9 +142,22 @@ public class BlockInteractListener extends CheckListener {
      * @param event
      *            the event
      */
+
+    //TODO ADD MORE BLOCKS
+    // PATCH FOR DISALLOWING PLACING PVP BLOCKS THROUGH WALLS
+
     @EventHandler(ignoreCancelled = false, priority = EventPriority.LOWEST)
     public void onPlayerInteract(final PlayerInteractEvent event) {
         final Player player = event.getPlayer();
+        if (event.getItem() == null) return;
+        if ((
+                event.getItem().getType() != Material.END_CRYSTAL ||
+                event.getItem().getType() != Material.OBSIDIAN  ||
+                event.getItem().getType() != Material.COBWEB  ||
+                event.getItem().getType() != Material.RESPAWN_ANCHOR  ||
+                !Tag.BEDS.getValues().contains(event.getItem().getType()) ||
+                event.getItem().getType() != Material.NETHERITE_BLOCK
+        ) || event.getAction() == Action.LEFT_CLICK_BLOCK) return;
         final IPlayerData pData = DataManager.getPlayerData(player);
         final BlockInteractData data = pData.getGenericInstance(BlockInteractData.class);
 

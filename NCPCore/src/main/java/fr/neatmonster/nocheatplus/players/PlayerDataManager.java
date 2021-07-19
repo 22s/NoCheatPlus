@@ -29,6 +29,7 @@ import java.util.UUID;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import fr.neatmonster.nocheatplus.checks.moving.player.CreativeFly;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -209,6 +210,8 @@ public class PlayerDataManager  implements IPlayerDataManager, ComponentWithName
             @Override
             public void onEvent(final PlayerQuitEvent event) {
                 playerLeaves(event.getPlayer());
+                CreativeFly.rocketLeniency.remove(event.getPlayer().getDisplayName());
+                StaticLog.logInfo("Removing player entry for "+event.getPlayer().getDisplayName());
             }
         },
         new MiniListener<PlayerKickEvent>() {

@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
+import fr.neatmonster.nocheatplus.checks.moving.player.CreativeFly;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -605,6 +606,12 @@ public class TickTask implements Runnable {
 
         // Finish.
         tick ++;
+        for(Entry<String, Integer> entry : CreativeFly.rocketLeniency.entrySet()) {
+            if (entry.getValue() > 0) {
+                CreativeFly.rocketLeniency.put(entry.getKey(), entry.getValue()-1);
+                //StaticLog.logInfo("Subtracting 1 tick from: "+entry.getKey()+" value: "+entry.getValue());
+            }
+        }
         timeLast = time;
     }
 
